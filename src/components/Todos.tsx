@@ -1,17 +1,20 @@
-import { useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import TodoItem from './TodoItem';
-import { TodosContext } from '../store/todos-context';
-import classes from './Todos.module.css'
+import { removeTodo } from '../store/actions';
+import { RootState } from '../store/types';
+import classes from './Todos.module.css';
 
 const Todos: React.FC = () => {
-    const todosCtx = useContext(TodosContext);
-    return ( 
+    const todos = useSelector((state: RootState) => state.todos.todos);
+    const dispatch = useDispatch();
+    
+    return (
         <ul className={classes.list}>
-            {todosCtx.items.map((item) => (
+            {todos.map((item) => (
                 <TodoItem 
                     key={item.id} 
                     text={item.text} 
-                    onRemoveTodo={todosCtx.removeTodo.bind(null, item.id)}
+                    onRemoveTodo={() => dispatch(removeTodo(item.id))}
                 />
             ))}
         </ul>

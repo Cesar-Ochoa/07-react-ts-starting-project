@@ -1,21 +1,20 @@
-import { useRef, useContext } from "react";
-import { TodosContext } from "../store/todos-context";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../store/actions";
 import classes from './NewTodo.module.css';
 
 const NewTodo: React.FC = () => {
-    const todosCtx = useContext(TodosContext);
+    const dispatch = useDispatch();
     const todoTextInputRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
-
         const enteredText = todoTextInputRef.current!.value;
-
         if (enteredText.trim().length === 0) {
             return;
         }
 
-        todosCtx.addTodo(enteredText);
+        dispatch(addTodo(enteredText));
     };
 
     return (
